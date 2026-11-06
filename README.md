@@ -2,7 +2,7 @@
   <strong>Русский</strong> | <a href="README_EN.md">English</a>
 </p>
 
-# Ser-Net
+# Ser-Net 
 
 **Ser-Net** — VPN-клиент для Windows x64 на базе [Xray-core](https://github.com/XTLS/Xray-core).
 
@@ -89,3 +89,9 @@ Ser-Net работает с совместимыми серверами на б�
 ---
 
 **Ser-Net** — клиентское программное обеспечение для управления подключениями к совместимой инфраструктуре Xray-core.
+
+<p align="center">
+  <a href="https://github.com/bgkv44/Ser-Net/releases">
+    🚀 Посмотреть все релизы Ser-Net
+  </a>
+</p>
