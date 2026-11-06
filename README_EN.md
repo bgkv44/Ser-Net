@@ -2,48 +2,90 @@
   <a href="README.md">Русский</a> | <strong>English</strong>
 </p>
 
-# Ser-Net v1.0.0-beta.1 — First Beta Release
+# Ser-Net
 
-🚀 **Introducing the first beta release of Ser-Net for Windows x64!**
+**Ser-Net** is a VPN client for Windows x64 based on [Xray-core](https://github.com/XTLS/Xray-core).
 
-This is the first public beta of our Xray-core-based VPN client. It is intended for early testing, identifying bugs, and collecting user feedback ahead of the stable release.
+The application allows users to import connection configurations and subscriptions, manage connections, select servers based on latency measurements, and monitor connection status and network traffic statistics.
 
-## ✨ Features
+## Features
 
-- Import connection links and subscriptions.
-- Support for VLESS, VMess, Trojan, and Shadowsocks protocols.
-- Support for TCP, WebSocket, gRPC, XHTTP, and HTTP transports.
-- Windows System Proxy mode.
-- TUN mode powered by SerNetService.
-- Server selection based on latency measurements.
-- Configurable routing rules.
-- Connection status and traffic statistics.
+- **Configuration Import** — import individual connection links and subscriptions.
+- **Server Selection** — measure server latency and sort servers based on test results.
+- **Connection Management** — connect, disconnect, and switch between servers.
+- **Traffic Statistics** — monitor connection status and network activity.
+- **System Proxy** — route traffic from supported applications through the selected server using Windows system proxy settings.
+- **TUN Mode** — route network traffic through a virtual network interface.
+- **Flexible Routing** — choose between routing all supported traffic through the proxy or connecting directly to local and selected Russian IP addresses.
 
-## ⚠️ Important: Beta Software
+## Supported Protocols
 
-This is a pre-release version and is still under active development. During testing, you may encounter:
+| Protocol | Support |
+|---|---|
+| VLESS | ✅ |
+| VMess | ✅ |
+| Trojan | ✅ |
+| Shadowsocks | ✅ |
 
-- Connection and routing issues.
-- Unstable behavior in certain features.
-- Occasional reconnections.
-- Changes to the interface and internal architecture in future releases.
+## Supported Transports
 
-This version is not recommended as your primary means of internet access if you require guaranteed stability.
+- TCP
+- WebSocket (WS)
+- gRPC
+- XHTTP
+- HTTP
 
-## 💻 Compatibility
+The availability of each transport depends on the server configuration and its compatibility with Xray-core.
 
-- **Platform:** Windows 10 / 11 (x64).
-- **Core:** Xray-core.
-- **TUN mode:** Requires SerNetService to be installed.
+## Windows Connection Modes
 
-Versions for Android, iOS, Linux, and macOS are currently in development.
+### System Proxy
 
-## 📢 Feedback
+Uses the Windows system proxy settings to route traffic from supported applications through the selected server.
 
-If you encounter a bug, experience connection issues, or have suggestions for improvement, please report them to the development team.
+### TUN Mode
 
-Every report helps us improve Ser-Net and prepare for the stable release.
+Uses a virtual network interface to route network traffic through the VPN tunnel.
+
+**Important:** TUN mode requires the `SerNetService` Windows service to be installed and running.
+
+## Routing
+
+Ser-Net supports the following routing modes:
+
+- **Global** — all supported traffic is routed through the selected server.
+- **Direct** — local and selected Russian IP addresses are accessed directly, while all other traffic is routed through the server.
+
+Actual routing behavior depends on the configured routing rules and connection settings.
+
+## Requirements
+
+- Windows 10 / 11 (x64).
+- A compatible Xray-core configuration.
+- Your own compatible connection link or subscription.
+- For TUN mode: the `SerNetService` Windows service and the required system components.
+
+## Getting Started
+
+1. Install and launch Ser-Net.
+2. Import a connection link or subscription.
+3. Wait for the server list to load.
+4. Select a server.
+5. Choose a connection mode.
+6. Click the Connect button.
+
+## Server Infrastructure
+
+Ser-Net works with servers compatible with Xray-core.
+
+**Ser-Net does not provide VPN servers, subscriptions, connection configurations, or access to server infrastructure.** You must have your own compatible connection link or subscription to use the application.
+
+## Legal Notice
+
+Before using or distributing this software, check the applicable laws and regulations in your jurisdiction.
+
+Do not use or distribute this software in jurisdictions where such use or distribution is prohibited or restricted by applicable law.
 
 ---
 
-**Thank you to everyone participating in the Ser-Net beta testing!**
+**Ser-Net** is client software designed to manage connections to compatible Xray-core infrastructure.
