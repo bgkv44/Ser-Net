@@ -1,3 +1,7 @@
+<p align="right">
+  <a href="README.md">Русский</a> | <strong>English</strong>
+</p>
+
 # Ser-Net v1.0.0-beta.1 — First Beta Release
 
 🚀 **Introducing the first beta release of Ser-Net for Windows x64!**
