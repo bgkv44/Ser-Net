@@ -1,3 +1,7 @@
+<p align="right">
+  <strong>Русский</strong> | <a href="README_EN.md">English</a>
+</p>
+
 # Ser-Net
 
 **Ser-Net** — VPN-клиент для Windows x64 на базе [Xray-core](https://github.com/XTLS/Xray-core).
