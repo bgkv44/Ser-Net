@@ -89,3 +89,9 @@ Do not use or distribute this software in jurisdictions where such use or distri
 ---
 
 **Ser-Net** is client software designed to manage connections to compatible Xray-core infrastructure.
+
+<p align="center">
+  <a href="https://github.com/bgkv44/Ser-Net/releases">
+    🚀 View all Ser-Net releases
+  </a>
+</p>
