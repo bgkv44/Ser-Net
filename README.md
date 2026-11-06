@@ -92,6 +92,6 @@ Ser-Net работает с совместимыми серверами на б�
 
 <p align="center">
   <a href="https://github.com/bgkv44/Ser-Net/releases">
-    🚀 Посмотреть все релизы Ser-Net
+    🚀 View all Ser-Net releases
   </a>
 </p>
