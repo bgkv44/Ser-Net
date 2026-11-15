@@ -37,7 +37,7 @@ Ser-Net is a Windows desktop VPN client built on [Xray-core](https://github.com/
 ## Screenshots
 
 <p align="center">
-  <img src="docs/screenshots/connection.png" alt="Connection screen: status, speed, IP and server list" width="880">
+  <img src="docs/screenshots/connection.png" alt="Connection screen: status, timer, speed and server list" width="880">
 </p>
 
 <p align="center"><em>Connection screen</em> — status, speed, IP and servers with latency. The public IP is hidden in the screenshot.</p>
@@ -46,7 +46,7 @@ Ser-Net is a Windows desktop VPN client built on [Xray-core](https://github.com/
   <img src="docs/screenshots/settings.png" alt="Settings: connection mode, themes, logs and routing" width="880">
 </p>
 
-<p align="center"><em>Settings</em> — connection mode, appearance, logs, routing modes and version details. HWID and device name are hidden.</p>
+<p align="center"><em>Settings</em> — Smart mode is selected and pending changes are visible. Apply was not pressed. HWID and device name are hidden.</p>
 
 ## Features
 
