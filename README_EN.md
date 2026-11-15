@@ -25,7 +25,7 @@
 
 </div>
 
-**Contents:** [About](#about) · [Features](#features) · [Protocols](#supported-protocols) · [Modes](#connection-modes) · [Routing](#routing) · [Install](#installation) · [First connection](#first-connection) · [Commands](#sernet-commands) · [Settings](#settings) · [Troubleshooting](#troubleshooting) · [Support](#support)
+**Contents:** [About](#about) · [Screenshots](#screenshots) · [Features](#features) · [Protocols](#supported-protocols) · [Modes](#connection-modes) · [Routing](#routing) · [Install](#installation) · [First connection](#first-connection) · [Commands](#sernet-commands) · [Settings](#settings) · [Troubleshooting](#troubleshooting) · [Support](#support)
 
 ## About
 
@@ -33,6 +33,20 @@ Ser-Net is a Windows desktop VPN client built on [Xray-core](https://github.com/
 
 > [!NOTE]
 > Ser-Net does not provide VPN servers, subscriptions or infrastructure access. You need your own compatible link or subscription from a provider.
+
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/connection.png" alt="Connection screen: status, speed, IP and server list" width="880">
+</p>
+
+<p align="center"><em>Connection screen</em> — status, speed, IP and servers with latency. The public IP is hidden in the screenshot.</p>
+
+<p align="center">
+  <img src="docs/screenshots/settings.png" alt="Settings: connection mode, themes, logs and routing" width="880">
+</p>
+
+<p align="center"><em>Settings</em> — connection mode, appearance, logs, routing modes and version details. HWID and device name are hidden.</p>
 
 ## Features
 
