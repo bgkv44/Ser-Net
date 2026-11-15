@@ -59,6 +59,16 @@
     .button.primary { border-color: transparent; background: var(--green); color: #092116; }
     .button:hover { text-decoration: none; filter: brightness(1.08); }
     .hero-note { margin-top: 22px; color: #8292a3; font-size: 13px; }
+    .releases { padding: 0 0 64px; }
+    .release-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 12px; margin-top: 18px; }
+    .release-card { min-width: 0; padding: 18px; border: 1px solid var(--line); border-radius: 15px; background: linear-gradient(145deg, rgba(21, 30, 41, .92), rgba(15, 20, 28, .92)); }
+    .release-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .release-heading h3 { margin: 0; overflow-wrap: anywhere; }
+    .release-badge { flex: 0 0 auto; padding: 3px 8px; border: 1px solid rgba(255, 210, 125, .3); border-radius: 999px; color: var(--amber); font-size: 11px; }
+    .release-date { margin: 7px 0 0; color: var(--muted); font-size: 13px; }
+    .release-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .release-actions .button { min-height: 36px; padding: 0 11px; font-size: 12px; }
+    .release-status { color: var(--muted); font-size: 14px; }
     .layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 44px; align-items: start; padding-bottom: 80px; }
     aside { position: sticky; top: 88px; padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: rgba(17, 23, 32, .78); }
     aside strong { display: block; margin: 0 0 12px; font-size: 12px; color: #8192a3; text-transform: uppercase; letter-spacing: .1em; }
@@ -122,7 +132,7 @@
         <span class="mark" aria-hidden="true">S</span><span>Ser-Net <span style="color:var(--muted);font-weight:500">/ руководство</span></span>
       </a>
       <nav class="nav" aria-label="Навигация по руководству">
-        <a href="#start">Начало</a><a href="#home">Подключение</a><a href="#subscriptions">Подписки</a><a href="#routing">Маршрутизация</a><a href="#settings">Настройки</a><a href="#commands">Команды</a>
+        <a href="#releases" id="releases-nav">Релизы</a><a href="#start">Начало</a><a href="#home">Подключение</a><a href="#subscriptions">Подписки</a><a href="#routing">Маршрутизация</a><a href="#settings">Настройки</a><a href="#commands">Команды</a>
       </nav>
     </div>
   </header>
@@ -133,11 +143,21 @@
       <h1>Всё нужное.<br>В нужном месте.</h1>
       <p>Как добавить подписку, подключиться к VPN, выбрать сервер и настроить маршрутизацию в Ser-Net. Без сложных терминов и долгих поисков по меню.</p>
       <div class="hero-actions">
-        <a class="button primary" href="#start">Быстрый старт <span aria-hidden="true">&nbsp;→</span></a>
-        <a class="button" href="https://github.com/bgkv44/Ser-Net/releases">Скачать Ser-Net</a>
+        <a class="button" href="#start">Быстрый старт <span aria-hidden="true">&nbsp;→</span></a>
+        <button class="button primary" type="button" id="release-toggle" aria-expanded="false" aria-controls="releases">Скачать Ser-Net</button>
       </div>
       <div class="hero-note">Инструкция для Windows-версии Ser-Net. Названия и расположение элементов приведены для настольного приложения.</div>
     </div>
+
+    <section class="wrap releases" id="releases" aria-labelledby="releases-title" hidden>
+      <div class="eyebrow">Версии приложения</div>
+      <h2 id="releases-title">Релизы Ser-Net</h2>
+      <p class="lead">Список загружается из GitHub. Здесь отображаются опубликованные релизы проекта, включая бета-версии.</p>
+      <div class="release-list" id="release-list" aria-live="polite" aria-busy="true">
+        <p class="release-status">Загружаем последние релизы…</p>
+      </div>
+      <p class="hero-note"><a href="https://github.com/bgkv44/Ser-Net/releases">Все релизы и примечания на GitHub ↗</a></p>
+    </section>
 
     <div class="wrap layout">
       <aside aria-label="Содержание">
@@ -266,5 +286,114 @@
       <a href="https://github.com/bgkv44/Ser-Net">Репозиторий на GitHub ↗</a>
     </div>
   </footer>
+  <script>
+    (() => {
+      const list = document.getElementById("release-list");
+      const apiUrl = "https://api.github.com/repos/bgkv44/Ser-Net/releases?per_page=10";
+      const releaseUrl = "https://github.com/bgkv44/Ser-Net/releases";
+      const toggle = document.getElementById("release-toggle");
+      const toggleReleases = () => {
+        const isOpening = list.closest("section").hidden;
+        list.closest("section").hidden = !isOpening;
+        toggle.setAttribute("aria-expanded", String(isOpening));
+        toggle.textContent = isOpening ? "Свернуть релизы" : "Скачать Ser-Net";
+        if (isOpening) list.closest("section").scrollIntoView({ behavior: "smooth", block: "start" });
+      };
+      toggle.addEventListener("click", toggleReleases);
+      document.getElementById("releases-nav").addEventListener("click", (event) => {
+        if (list.closest("section").hidden) {
+          event.preventDefault();
+          toggleReleases();
+        }
+      });
+
+      const makeLink = (url, label, primary = false) => {
+        try {
+          const parsed = new URL(url);
+          if (parsed.protocol !== "https:" || parsed.hostname !== "github.com") return null;
+          const link = document.createElement("a");
+          link.className = `button${primary ? " primary" : ""}`;
+          link.href = parsed.href;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = label;
+          return link;
+        } catch {
+          return null;
+        }
+      };
+
+      const showMessage = (text) => {
+        list.replaceChildren();
+        const message = document.createElement("p");
+        message.className = "release-status";
+        message.textContent = text;
+        list.append(message);
+      };
+
+      const renderRelease = (release) => {
+        const card = document.createElement("article");
+        card.className = "release-card";
+
+        const heading = document.createElement("div");
+        heading.className = "release-heading";
+        const title = document.createElement("h3");
+        title.textContent = release.name || release.tag_name || "Релиз Ser-Net";
+        heading.append(title);
+        if (release.prerelease) {
+          const badge = document.createElement("span");
+          badge.className = "release-badge";
+          badge.textContent = "Бета / предварительная версия";
+          heading.append(badge);
+        }
+        card.append(heading);
+
+        const date = document.createElement("p");
+        date.className = "release-date";
+        const published = release.published_at ? new Date(release.published_at) : null;
+        date.textContent = published && !Number.isNaN(published.getTime())
+          ? `Опубликован: ${new Intl.DateTimeFormat("ru-RU", { dateStyle: "medium" }).format(published)}`
+          : "Дата публикации не указана";
+        card.append(date);
+
+        const actions = document.createElement("div");
+        actions.className = "release-actions";
+        const windowsInstaller = (release.assets || []).find((asset) => /\.exe$/i.test(asset.name));
+        const portableZip = (release.assets || []).find((asset) => /portable.*\.zip$/i.test(asset.name));
+        if (windowsInstaller) {
+          const link = makeLink(windowsInstaller.browser_download_url, "Установщик Windows (.exe)", true);
+          if (link) actions.append(link);
+        }
+        if (portableZip) {
+          const link = makeLink(portableZip.browser_download_url, "Портативная версия (.zip)");
+          if (link) actions.append(link);
+        }
+        const page = makeLink(release.html_url, "Страница релиза ↗");
+        if (page) actions.append(page);
+        if (actions.childElementCount) card.append(actions);
+        return card;
+      };
+
+      fetch(apiUrl, { headers: { Accept: "application/vnd.github+json" } })
+        .then((response) => {
+          if (!response.ok) throw new Error(`GitHub API: ${response.status}`);
+          return response.json();
+        })
+        .then((releases) => {
+          if (!Array.isArray(releases) || releases.length === 0) {
+            showMessage("Опубликованных релизов пока нет.");
+            return;
+          }
+          list.replaceChildren(...releases.filter((release) => !release.draft).slice(0, 5).map(renderRelease));
+          if (!list.childElementCount) showMessage("Опубликованных релизов пока нет.");
+        })
+        .catch(() => {
+          showMessage("Не удалось загрузить список сейчас. Откройте страницу релизов на GitHub.");
+          const link = makeLink(releaseUrl, "Открыть релизы ↗", true);
+          if (link) list.append(link);
+        })
+        .finally(() => list.setAttribute("aria-busy", "false"));
+    })();
+  </script>
 </body>
 </html>
