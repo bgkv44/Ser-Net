@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0d12">
+  <title>Ser-Net — руководство пользователя</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0a0d12;
+      --panel: #111720;
+      --panel-2: #151e29;
+      --line: #263342;
+      --text: #edf4fb;
+      --muted: #a0afbf;
+      --green: #7ee0ad;
+      --blue: #82b8ff;
+      --amber: #ffd27d;
+      --max: 1120px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 8px; }
+    .skip-link {
+      position: absolute; left: 14px; top: -60px; z-index: 20;
+      padding: 10px 14px; border-radius: 10px; background: var(--green); color: #092116; font-weight: 700;
+    }
+    .skip-link:focus { top: 12px; text-decoration: none; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 75% -15%, rgba(54, 119, 185, .22), transparent 38rem),
+        radial-gradient(ellipse at 0% 28%, rgba(43, 137, 96, .12), transparent 30rem),
+        var(--bg);
+      color: var(--text);
+      font: 16px/1.65 Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code, kbd { font: .91em/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    code { color: #b9d7ff; overflow-wrap: anywhere; }
+    .wrap { width: min(var(--max), calc(100% - 40px)); margin-inline: auto; }
+    .topbar {
+      position: sticky; top: 0; z-index: 5;
+      border-bottom: 1px solid rgba(119, 146, 174, .2);
+      background: rgba(10, 13, 18, .86); backdrop-filter: blur(16px);
+    }
+    .topbar-inner { min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: inline-flex; align-items: center; gap: 11px; color: var(--text); font-weight: 750; letter-spacing: -.02em; white-space: nowrap; }
+    .mark {
+      width: 34px; height: 34px; display: grid; place-items: center; border-radius: 11px;
+      border: 1px solid rgba(126, 224, 173, .4); background: rgba(126, 224, 173, .11); color: var(--green);
+    }
+    .nav { display: flex; gap: 18px; align-items: center; overflow-x: auto; white-space: nowrap; scrollbar-width: none; }
+    .nav::-webkit-scrollbar { display: none; }
+    .nav a { color: var(--muted); font-size: 13px; }
+    .nav a:hover { color: var(--text); text-decoration: none; }
+    .hero { padding: 86px 0 64px; }
+    .eyebrow { color: var(--green); font-size: 12px; font-weight: 750; letter-spacing: .15em; text-transform: uppercase; }
+    h1 { max-width: 850px; margin: 15px 0 18px; font-size: clamp(42px, 7vw, 76px); line-height: 1.03; letter-spacing: -.065em; }
+    .hero p { max-width: 680px; color: var(--muted); font-size: 18px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .appmap { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 26px; max-width: 760px; }
+    .appmap a {
+      display: flex; flex-direction: column; gap: 2px; min-width: 0;
+      padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px;
+      background: rgba(17, 23, 32, .68); color: var(--text); font-size: 14px; font-weight: 650;
+    }
+    .appmap a span { color: var(--muted); font-size: 12px; font-weight: 500; }
+    .appmap a:hover { border-color: rgba(126, 224, 173, .45); text-decoration: none; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 17px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--text); font-weight: 650; }
+    .button.primary { border-color: transparent; background: var(--green); color: #092116; }
+    .button:hover { text-decoration: none; filter: brightness(1.08); }
+    .hero-note { margin-top: 22px; color: #8292a3; font-size: 13px; }
+    .releases { padding: 0 0 64px; }
+    .section-head { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .section-head h2 { margin-bottom: 0; }
+    .section-head .button { min-height: 38px; padding: 0 14px; font-size: 13px; }
+    .release-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 12px; margin-top: 18px; }
+    .release-card { min-width: 0; padding: 18px; border: 1px solid var(--line); border-radius: 15px; background: linear-gradient(145deg, rgba(21, 30, 41, .92), rgba(15, 20, 28, .92)); }
+    .release-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .release-heading h3 { margin: 0; overflow-wrap: anywhere; }
+    .release-badge { flex: 0 0 auto; padding: 3px 8px; border: 1px solid rgba(255, 210, 125, .3); border-radius: 999px; color: var(--amber); font-size: 11px; }
+    .release-date { margin: 7px 0 0; color: var(--muted); font-size: 13px; }
+    .release-file { margin: 7px 0 0; color: var(--muted); font-size: 12px; }
+    .release-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .release-actions .button { min-height: 36px; padding: 0 11px; font-size: 12px; }
+    .release-status { color: var(--muted); font-size: 14px; }
+    .release-help { margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(119, 146, 174, .16); color: var(--muted); font-size: 13px; }
+    .release-help p { margin: 6px 0; }
+    .layout { display: grid; grid-template-columns: 230px minmax(0, 1fr); gap: 44px; align-items: start; padding-bottom: 80px; }
+    aside { position: sticky; top: 88px; padding: 18px; border: 1px solid var(--line); border-radius: 16px; background: rgba(17, 23, 32, .78); }
+    aside strong { display: block; margin: 0 0 12px; font-size: 12px; color: #8192a3; text-transform: uppercase; letter-spacing: .1em; }
+    aside a { display: block; padding: 6px 0; color: var(--muted); font-size: 13px; }
+    article { min-width: 0; }
+    section { padding: 0 0 42px; margin: 0 0 40px; border-bottom: 1px solid rgba(119, 146, 174, .19); }
+    section:last-child { margin-bottom: 0; border: 0; }
+    h2 { margin: 0 0 14px; font-size: clamp(26px, 4vw, 36px); line-height: 1.16; letter-spacing: -.04em; }
+    h3 { margin: 25px 0 8px; font-size: 18px; letter-spacing: -.02em; }
+    p { margin: 10px 0; }
+    .lead { color: var(--muted); font-size: 17px; }
+    .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
+    .card { padding: 18px; border: 1px solid var(--line); border-radius: 15px; background: linear-gradient(145deg, rgba(21, 30, 41, .92), rgba(15, 20, 28, .92)); }
+    .card h3 { margin: 0 0 6px; font-size: 16px; }
+    .card p { margin: 0; color: var(--muted); font-size: 14px; }
+    .steps { counter-reset: step; list-style: none; padding: 0; margin: 20px 0; }
+    .steps li { position: relative; min-height: 46px; margin: 0 0 12px; padding: 2px 0 2px 54px; color: var(--muted); }
+    .steps li::before { counter-increment: step; content: counter(step, decimal-leading-zero); position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid rgba(126, 224, 173, .35); border-radius: 12px; color: var(--green); font: 700 12px ui-monospace, monospace; }
+    .steps strong { color: var(--text); }
+    .callout { margin: 18px 0; padding: 15px 17px; border: 1px solid rgba(130, 184, 255, .28); border-radius: 13px; background: rgba(63, 113, 173, .1); color: #c9d8e8; font-size: 14px; }
+    .callout.warn { border-color: rgba(255, 210, 125, .3); background: rgba(151, 105, 27, .1); }
+    .mode { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 14px; padding: 15px 0; border-top: 1px solid var(--line); }
+    .mode strong { color: var(--text); }
+    .mode span { color: var(--muted); }
+    .command { display: grid; grid-template-columns: minmax(200px, .8fr) minmax(0, 1fr) auto; gap: 8px 12px; padding: 12px 0; border-bottom: 1px solid rgba(119, 146, 174, .16); }
+    .command code { color: #b8d7ff; }
+    .command span { color: var(--muted); font-size: 14px; }
+    .copy {
+      align-self: start; padding: 5px 9px; border: 1px solid var(--line); border-radius: 8px;
+      background: var(--panel); color: var(--muted); font: 600 12px/1.4 inherit; cursor: pointer;
+    }
+    .copy:hover { border-color: var(--blue); color: var(--text); }
+    .copy[data-done="true"] { border-color: rgba(126, 224, 173, .5); color: var(--green); }
+    .settings-list { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 0 16px; }
+    .settings-list dt, .settings-list dd { margin: 0; padding: 11px 0; border-bottom: 1px solid rgba(119, 146, 174, .16); }
+    .settings-list dt { font-weight: 650; }
+    .settings-list dd { color: var(--muted); }
+    .footer { padding: 24px 0 42px; border-top: 1px solid rgba(119, 146, 174, .19); color: #8192a3; font-size: 13px; }
+    .footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+    @media (max-width: 800px) {
+      .nav { gap: 14px; }
+      .layout { grid-template-columns: 1fr; gap: 24px; }
+      aside { position: static; display: flex; flex-wrap: wrap; gap: 4px 16px; }
+      aside strong { width: 100%; }
+      aside a { padding: 2px 0; }
+    }
+    @media (max-width: 560px) {
+      html { scroll-padding-top: 112px; }
+      .wrap { width: min(100% - 28px, var(--max)); }
+      .topbar-inner { align-items: flex-start; flex-direction: column; gap: 4px; padding: 12px 0 10px; }
+      .nav { width: 100%; padding-bottom: 2px; }
+      .hero { padding: 48px 0 40px; }
+      .hero p { font-size: 16px; }
+      .appmap { grid-template-columns: 1fr; }
+      .hero-actions .button { flex: 1 1 100%; }
+      .cards { grid-template-columns: 1fr; }
+      .mode { grid-template-columns: 1fr; gap: 3px; }
+      .command { grid-template-columns: minmax(0, 1fr) auto; }
+      .command code { grid-column: 1; }
+      .command .copy { grid-column: 2; grid-row: 1; }
+      .command span { grid-column: 1 / -1; }
+      .settings-list { grid-template-columns: 1fr; }
+      .settings-list dt { padding-bottom: 2px; border-bottom: 0; }
+      .settings-list dd { padding-top: 0; }
+      .release-actions .button { flex: 1 1 100%; }
+      .section-head { align-items: flex-start; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#start">Перейти к руководству</a>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#top" aria-label="Ser-Net — к началу страницы">
+        <span class="mark" aria-hidden="true">S</span><span>Ser-Net <span style="color:var(--muted);font-weight:500">/ руководство</span></span>
+      </a>
+      <nav class="nav" aria-label="Навигация по руководству">
+        <a href="#releases" data-open-releases>Релизы</a><a href="#start">Начало</a><a href="#home">Подключение</a><a href="#subscriptions">Подписки</a><a href="#routing">Маршрутизация</a><a href="#settings">Настройки</a><a href="#commands">Команды</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <div class="eyebrow">Руководство пользователя</div>
+      <h1>Ser-Net:<br>подключение, подписки и маршруты.</h1>
+      <p>Короткий гайд по трём экранам приложения: как добавить подписку, подключиться, выбрать сервер и настроить маршрутизацию. Ниже — все команды <code>sernet://</code> и разбор частых ошибок.</p>
+      <div class="hero-actions">
+        <a class="button primary" href="#start">Быстрый старт <span aria-hidden="true">&nbsp;→</span></a>
+        <button class="button" type="button" id="release-toggle" aria-expanded="false" aria-controls="releases">Скачать Ser-Net</button>
+      </div>
+      <nav class="appmap" aria-label="Разделы приложения">
+        <a href="#home"><strong>Подключение</strong><span>Старт, серверы, пинг</span></a>
+        <a href="#subscriptions"><strong>Подписки</strong><span>Ссылка провайдера, обновление</span></a>
+        <a href="#settings"><strong>Настройки</strong><span>Режим, маршруты, логи</span></a>
+      </nav>
+      <div class="hero-note">Инструкция для Windows-версии: названия кнопок совпадают с интерфейсом приложения.</div>
+    </div>
+
+    <section class="wrap releases" id="releases" aria-labelledby="releases-title" hidden>
+      <div class="section-head">
+        <div>
+          <div class="eyebrow">Версии приложения</div>
+          <h2 id="releases-title">Скачать Ser-Net</h2>
+        </div>
+        <button class="button" type="button" data-releases-toggle>Свернуть список</button>
+      </div>
+      <p class="lead">Список загружается из GitHub: здесь только опубликованные релизы проекта. Текущие сборки помечены как бета — это тестовые версии.</p>
+      <div class="release-list" id="release-list" aria-live="polite" aria-busy="true">
+        <p class="release-status">Загружаем последние релизы…</p>
+      </div>
+      <div class="release-help">
+        <p><strong>Что скачивать:</strong> установщик <code>.exe</code> — обычная установка в систему; портативный <code>.zip</code> — распаковать в папку и запустить без установки.</p>
+        <p>Если файла нужного типа в релизе нет, откройте его страницу. <a href="https://github.com/bgkv44/Ser-Net/releases">Все релизы и примечания на GitHub ↗</a></p>
+      </div>
+    </section>
+
+    <div class="wrap layout">
+      <aside aria-label="Содержание">
+        <strong>На этой странице</strong>
+        <a href="#releases" data-open-releases>Скачать Ser-Net</a>
+        <a href="#start">1. Быстрый старт</a>
+        <a href="#home">2. Экран «Подключение»</a>
+        <a href="#subscriptions">3. Подписки</a>
+        <a href="#routing">4. Режимы и правила</a>
+        <a href="#settings">5. Настройки</a>
+        <a href="#commands">6. Команды sernet://</a>
+        <a href="#help">7. Если что-то не работает</a>
+      </aside>
+
+      <article>
+        <section id="start">
+          <div class="eyebrow">01 / Начало</div>
+          <h2>Первое подключение</h2>
+          <p class="lead">Для работы нужен адрес подписки от вашего VPN-провайдера. Если подписки ещё нет, запросите её у провайдера.</p>
+          <ol class="steps">
+            <li><strong>Откройте «Подписки»</strong> в нижней навигации приложения.</li>
+            <li>Нажмите <strong>«Добавить подписку»</strong>, вставьте ссылку и нажмите «Загрузить». Можно вставить ссылку прямо из буфера обмена. Загрузка подписки доступна при отключённом VPN.</li>
+            <li>Если подписок несколько, нажмите <strong>«Выбрать»</strong> на нужной. Серверы этой подписки появятся на главном экране.</li>
+            <li>На экране <strong>«Подключение»</strong> выберите сервер и нажмите круглую кнопку питания. Или нажмите «Подключиться к быстрому серверу»: приложение проверит узлы, выберет сервер с наименьшим пингом и попросит подтвердить подключение.</li>
+          </ol>
+          <div class="callout">В Windows для режима TUN может понадобиться установить службу Ser-Net. При установке появится системный запрос UAC. Системный прокси не требует этой службы.</div>
+        </section>
+
+        <section id="home">
+          <div class="eyebrow">02 / Главный экран</div>
+          <h2>«Подключение»: статус и серверы</h2>
+          <p class="lead">Здесь собраны управление VPN и краткая информация о текущем подключении.</p>
+          <div class="cards">
+            <div class="card"><h3>Кнопка подключения</h3><p>Показывает состояние VPN. Нажмите «Старт» для подключения или «Стоп» для отключения. Если операция подключения затянулась и появилась кнопка «Отменить подключение», ею можно прервать попытку.</p></div>
+            <div class="card"><h3>Сервер и таймер</h3><p>Под текущим статусом отображаются выбранный сервер и длительность подключения.</p></div>
+            <div class="card"><h3>Скорость и трафик</h3><p>Показаны текущие скорости скачивания и отдачи, а также суммарно переданные данные за сессию.</p></div>
+            <div class="card"><h3>IP, пинг и маршрут</h3><p>Краткая строка показывает IP выхода, если он получен, последнее измеренное значение задержки выбранного сервера и применённый режим маршрутизации. Пинг не обновляется непрерывно.</p></div>
+          </div>
+          <h3>Как выбрать сервер</h3>
+          <p>Список серверов выбранной подписки расположен ниже блока подключения. Нажатие на сервер выбирает его, но само по себе не подключает VPN. Если VPN уже подключён, приложение попросит подтвердить переключение.</p>
+          <p>Для поиска сервера используйте поле «Поиск по названию или стране». Кнопка «Пинг» запускает TCP-проверку задержки; фильтр «Доступные» показывает поддерживаемые узлы с успешной последней TCP-проверкой. Этот результат сохраняется до следующей проверки и не гарантирует, что узел доступен прямо сейчас. Для автоматического подбора нажмите <strong>«Подключиться к быстрому серверу»</strong>: Ser-Net проверит поддерживаемые узлы и выберет ответивший с наименьшей задержкой. Перед новым подключением или переключением на существенно лучший сервер приложение запросит подтверждение; если разница небольшая, оно оставит текущее подключение.</p>
+        </section>
+
+        <section id="subscriptions">
+          <div class="eyebrow">03 / Подписки</div>
+          <h2>Где управлять подписками</h2>
+          <p class="lead">Раздел «Подписки» хранит добавленные ссылки отдельно друг от друга. На главной показываются серверы только выбранной подписки.</p>
+          <ul>
+            <li><strong>Добавить или обновить:</strong> при отключённом VPN загрузите ссылку через «Добавить подписку». Повторная загрузка той же ссылки обновляет существующую запись, а не создаёт дубликат. Уже добавленную подписку также можно обновить кнопкой на её карточке.</li>
+            <li><strong>Выбрать:</strong> нажмите «Выбрать» на карточке. Эта подписка станет активной и её серверы появятся на главном экране.</li>
+            <li><strong>Обновить:</strong> кнопка обновляет одну конкретную подписку; остальные не переключаются.</li>
+            <li><strong>Переименовать:</strong> нажмите значок карандаша у названия. Новое имя хранится только на этом устройстве.</li>
+            <li><strong>Трафик и срок:</strong> если провайдер передаёт эти данные, карточка показывает использованный объём и дату окончания подписки.</li>
+            <li><strong>Кабинет:</strong> кнопка ведёт в личный кабинет провайдера, если адрес кабинета включён в данные подписки.</li>
+            <li><strong>Удалить:</strong> значок корзины удаляет подписку с устройства.</li>
+          </ul>
+          <div class="callout warn">Если VPN подключён, при выборе другой подписки приложение попросит подтвердить отключение и переключение. Подтвердите действие кнопкой «Выключить защиту», если хотите продолжить; без подтверждения активная подписка не изменится.</div>
+        </section>
+
+        <section id="routing">
+          <div class="eyebrow">04 / Маршруты</div>
+          <h2>Куда направлять трафик</h2>
+          <p class="lead">Откройте «Настройки» и найдите карточку «Как работает интернет». Выберите один из трёх режимов.</p>
+          <div class="mode"><strong>Умный режим</strong><span>В TUN сайты России и локальная сеть идут напрямую, остальное — через VPN. В режиме системного прокси сайты РФ идут напрямую, остальные — через прокси. Подходит для обычного использования.</span></div>
+          <div class="mode"><strong>Весь трафик через VPN</strong><span>В режиме TUN трафик компьютера направляется через VPN, кроме локальных/частных сетей и заданных исключений. При выборе системного прокси название режима меняется на «Трафик через прокси»: прокси используют приложения, учитывающие системные настройки; приложения, которые игнорируют системный прокси, через него не пойдут.</span></div>
+          <div class="mode"><strong>Только выбранное</strong><span>Через VPN идут только правила из списка «Через VPN»; остальной трафик идёт напрямую. В этом режиме можно также включить блокировку рекламных доменов и трекеров.</span></div>
+          <h3>Списки правил</h3>
+          <p>Доступные списки зависят от режима: в «Умном режиме» ручной редактор скрыт; в «Весь трафик через VPN» можно задавать исключения «Напрямую» и «Блокировать»; в «Только выбранное» доступны «Через VPN» и «Блок». Добавляйте сайт или домен вручную либо выберите готовый сервис (например, Telegram, YouTube, Discord или GitHub). В режиме TUN можно также добавить приложение Windows по имени или пути к файлу.</p>
+          <p>Если вы меняете режим или правила во время активного подключения, появится состояние «Есть изменения». Нажмите <strong>«Применить»</strong>, чтобы применить их к подключению, или «Отмена», чтобы вернуть последний применённый режим и списки. Когда VPN отключён, выбранные настройки используются при следующем подключении. В редакторе правил также доступны импорт и экспорт.</p>
+          <div class="callout"><strong>Термины:</strong> <code>geosite</code> — набор доменов для сервиса или категории, его правила вводятся как доменные; <code>geoip</code> — набор IP-адресов и диапазонов, его правила вводятся как IP. Готовый пресет сервиса может включать проверенные записи одного или обоих типов.</div>
+          <div class="callout warn">Если подписка содержит готовую JSON-конфигурацию, маршрутизацию задаёт провайдер: режимы и ручные списки Ser-Net для неё не применяются.</div>
+          <h3>Реклама и обход DPI</h3>
+          <p><strong>Реклама и трекеры</strong> включает блокировку известной категории рекламных доменов в режиме «Только выбранное»; это не универсальный блокировщик рекламы и не отдельный фильтр для других режимов. <strong>Обход DPI → Фрагментация TLS</strong> может помочь при некоторых блокировках TLS/SNI. Фрагментация применяется только для поддерживаемых профилей TLS/REALITY и не гарантирует обход блокировки. Если VPN подключён, изменение настройки перезапускает подключение с новым значением. При использовании готовой JSON-конфигурации подписки параметры Ser-Net могут не применяться.</p>
+        </section>
+
+        <section id="settings">
+          <div class="eyebrow">05 / Настройки</div>
+          <h2>Что находится в настройках</h2>
+          <dl class="settings-list">
+            <dt>Режим подключения</dt><dd>Системный прокси или TUN. Выбранный режим применяется при следующем подключении.</dd>
+            <dt>Служба Ser-Net</dt><dd>В режиме TUN показывает состояние службы и позволяет установить, обновить или переустановить её.</dd>
+            <dt>Автозапуск и защита</dt><dd>«Запускать при входе в Windows» запускает приложение при входе в систему. «Защита трафика при запуске» действует при следующем старте Ser-Net: если VPN ещё не подключён и есть поддерживаемые серверы, приложение проверяет их и пытается подключиться к ответившему узлу с наименьшей задержкой. Уже работающий туннель эта настройка не переключает.</dd>
+            <dt>Оформление</dt><dd>Светлая, тёмная тема или тема системы.</dd>
+            <dt>Логи</dt><dd>Журналы ядра и службы. Их можно развернуть и скопировать, например, чтобы отправить в поддержку.</dd>
+            <dt>Поддержка</dt><dd>Ссылка на Telegram поддержки: <a href="https://t.me/secureNet_Support_new" target="_blank" rel="noopener noreferrer">@secureNet_Support_new</a>.</dd>
+            <dt>Команды Ser-Net</dt><dd>Справочник ссылок <code>sernet://</code> для ярлыков и других приложений; нажмите значок копирования рядом с нужной командой.</dd>
+            <dt>О приложении</dt><dd>Версия Ser-Net, версия ядра и состояние службы; здесь же можно вручную проверить обновления.</dd>
+          </dl>
+        </section>
+
+        <section id="commands">
+          <div class="eyebrow">06 / Быстрые ссылки</div>
+          <h2>Команды <code>sernet://</code></h2>
+          <p class="lead">Команды позволяют управлять приложением из ярлыка или другого приложения. Нажмите «Копировать» рядом с командой, чтобы забрать её шаблон; части вроде <code>{ссылка}</code> нужно заменить своими данными. Те же команды есть в настройках → «Команды Ser-Net».</p>
+          <div class="command"><code>sernet://connect</code><span>Подключиться к выбранному серверу; если сервер не выбран — запустить подбор быстрого сервера с подтверждением. Если VPN уже подключён, команда не переключает его.</span></div>
+          <div class="command"><code>sernet://open</code><span>Показать окно и, если VPN не подключён и сейчас не выполняется другая операция, подключиться к выбранному серверу либо запустить подбор быстрого.</span></div>
+          <div class="command"><code>sernet://disconnect</code><span>Отключить подключённый или подключающийся VPN; если он уже отключён, ничего не меняет.</span></div>
+          <div class="command"><code>sernet://toggle</code><span>Если VPN подключён — отключить; если отключён — подключиться к выбранному серверу.</span></div>
+          <div class="command"><code>sernet://best</code><span>Проверить поддерживаемые серверы и выбрать отвечающий с наименьшей задержкой. Новое подключение или заметно более быстрый сервер требуют подтверждения; при небольшой разнице Ser-Net оставит текущее подключение.</span></div>
+          <div class="command"><code>sernet://refresh</code><span>Обновить активную подписку. Если подписка не добавлена, Ser-Net сообщит об этом.</span></div>
+          <div class="command"><code>sernet://add/{ссылка}</code><span>Добавить http/https-ссылку подписки в URL-кодировании. Если VPN подключён, новая подписка сохраняется, не переключая текущую.</span></div>
+          <div class="command"><code>sernet://server/{имя-или-код-страны}</code><span>Выбрать поддерживаемый сервер по части его отображаемого имени или точному коду страны. Если VPN подключён, переключение потребует подтверждения.</span></div>
+          <div class="command"><code>sernet://routing/off</code><span>Выбрать умный режим; ручные правила сохраняются. При активном VPN изменения маршрутизации нужно применить кнопкой «Применить».</span></div>
+          <div class="command"><code>sernet://routing/mode/smart</code><span>Выбрать умный режим. При активном VPN изменения маршрутизации нужно применить кнопкой «Применить».</span></div>
+          <div class="command"><code>sernet://routing/mode/global</code><span>Выбрать глобальный режим; при системном прокси он называется «Трафик через прокси». При активном VPN нажмите «Применить».</span></div>
+          <div class="command"><code>sernet://routing/mode/selective</code><span>Выбрать режим «Только выбранное». При активном VPN нажмите «Применить».</span></div>
+          <div class="command"><code>sernet://routing/add/{base64}</code><span>Импортировать правила из base64url. JSON может содержать массивы proxy/direct/block; обычный список строк добавляется в список «Через VPN». В умном режиме ручные правила не применяются; при активном VPN новые правила нужно применить в настройках.</span></div>
+        </section>
+
+        <section id="help">
+          <div class="eyebrow">07 / Поддержка</div>
+          <h2>Если что-то не работает</h2>
+          <ul>
+            <li><strong>Серверы не появились:</strong> проверьте ссылку подписки и нажмите «Обновить». Если загрузка завершилась ошибкой, старый список серверов сохраняется.</li>
+            <li><strong>Не подключается:</strong> попробуйте другой сервер и проверьте режим подключения. Для TUN убедитесь, что служба Ser-Net установлена.</li>
+            <li><strong>Сайт идёт не тем маршрутом:</strong> проверьте выбранный режим, нужный список правил и примените ожидающие изменения.</li>
+            <li><strong>Нужна помощь:</strong> откройте «Настройки» → «Логи», скопируйте журнал и напишите в <a href="https://t.me/secureNet_Support_new" target="_blank" rel="noopener noreferrer">поддержку в Telegram</a>. Не отправляйте пароль или приватную ссылку подписки в публичные чаты.</li>
+          </ul>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <span>Ser-Net · Руководство пользователя</span>
+      <a href="https://github.com/bgkv44/Ser-Net">Репозиторий на GitHub ↗</a>
+    </div>
+  </footer>
+  <script>
+    (() => {
+      const section = document.getElementById("releases");
+      const list = document.getElementById("release-list");
+      const heroToggle = document.getElementById("release-toggle");
+      if (!section || !list || !heroToggle) return;
+
+      const toggles = [heroToggle, ...section.querySelectorAll("[data-releases-toggle]")];
+      const openers = document.querySelectorAll("[data-open-releases]");
+      const apiUrl = "https://api.github.com/repos/bgkv44/Ser-Net/releases?per_page=10";
+      const releaseUrl = "https://github.com/bgkv44/Ser-Net/releases";
+      let releasesLoaded = false;
+
+      const makeLink = (url, label, primary = false) => {
+        try {
+          const parsed = new URL(url);
+          if (parsed.protocol !== "https:" || parsed.hostname !== "github.com") return null;
+          const link = document.createElement("a");
+          link.className = `button${primary ? " primary" : ""}`;
+          link.href = parsed.href;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+          link.textContent = label;
+          return link;
+        } catch {
+          return null;
+        }
+      };
+
+      const showMessage = (text) => {
+        list.replaceChildren();
+        const message = document.createElement("p");
+        message.className = "release-status";
+        message.textContent = text;
+        list.append(message);
+      };
+
+      const formatSize = (bytes) => {
+        if (!Number.isFinite(bytes) || bytes <= 0) return null;
+        const megabytes = bytes / (1024 * 1024);
+        return megabytes >= 1024
+          ? `${(megabytes / 1024).toFixed(1)} ГБ`
+          : `${megabytes.toFixed(megabytes >= 10 ? 0 : 1)} МБ`;
+      };
+
+      const renderRelease = (release) => {
+        const card = document.createElement("article");
+        card.className = "release-card";
+
+        const heading = document.createElement("div");
+        heading.className = "release-heading";
+        const title = document.createElement("h3");
+        title.textContent = release.name || release.tag_name || "Релиз Ser-Net";
+        heading.append(title);
+        if (release.prerelease) {
+          const badge = document.createElement("span");
+          badge.className = "release-badge";
+          badge.textContent = "Бета";
+          badge.title = "Предварительная версия";
+          heading.append(badge);
+        }
+        card.append(heading);
+
+        const tag = document.createElement("p");
+        tag.className = "release-date";
+        const published = release.published_at ? new Date(release.published_at) : null;
+        const publishedText = published && !Number.isNaN(published.getTime())
+          ? new Intl.DateTimeFormat("ru-RU", { dateStyle: "medium" }).format(published)
+          : null;
+        tag.textContent = [release.tag_name && release.tag_name !== title.textContent ? release.tag_name : null, publishedText]
+          .filter(Boolean).join(" · ") || "Дата публикации не указана";
+        card.append(tag);
+
+        const actions = document.createElement("div");
+        actions.className = "release-actions";
+        const assets = release.assets || [];
+        const windowsInstaller = assets.find((asset) => /\.exe$/i.test(asset.name));
+        const portableZip = assets.find((asset) => /portable.*\.zip$/i.test(asset.name));
+        if (windowsInstaller) {
+          const link = makeLink(windowsInstaller.browser_download_url, "Установщик Windows (.exe)", true);
+          if (link) actions.append(link);
+        }
+        if (portableZip) {
+          const link = makeLink(portableZip.browser_download_url, "Портативная версия (.zip)");
+          if (link) actions.append(link);
+        }
+        const page = makeLink(release.html_url, "Страница релиза ↗");
+        if (page) actions.append(page);
+        if (actions.childElementCount) card.append(actions);
+
+        const sizes = [windowsInstaller && ["Установщик", windowsInstaller.size], portableZip && ["Портативная", portableZip.size]]
+          .filter(Boolean)
+          .map(([label, size]) => (formatSize(size) ? `${label}: ${formatSize(size)}` : null))
+          .filter(Boolean);
+        if (sizes.length) {
+          const file = document.createElement("p");
+          file.className = "release-file";
+          file.textContent = sizes.join(" · ");
+          card.append(file);
+        }
+        return card;
+      };
+
+      const loadReleases = () => {
+        if (releasesLoaded) return;
+        releasesLoaded = true;
+        fetch(apiUrl, { headers: { Accept: "application/vnd.github+json" } })
+          .then((response) => {
+            if (!response.ok) throw new Error(`GitHub API: ${response.status}`);
+            return response.json();
+          })
+          .then((releases) => {
+            const published = Array.isArray(releases) ? releases.filter((release) => !release.draft) : [];
+            if (published.length === 0) {
+              showMessage("Опубликованных релизов пока нет.");
+              return;
+            }
+            list.replaceChildren(...published.slice(0, 5).map(renderRelease));
+          })
+          .catch(() => {
+            showMessage("Не удалось загрузить список сейчас.");
+            const link = makeLink(releaseUrl, "Открыть релизы на GitHub ↗", true);
+            if (link) list.append(link);
+          })
+          .finally(() => list.setAttribute("aria-busy", "false"));
+      };
+
+      const setOpen = (open, scroll = false) => {
+        section.hidden = !open;
+        heroToggle.setAttribute("aria-expanded", String(open));
+        heroToggle.textContent = open ? "Свернуть релизы" : "Скачать Ser-Net";
+        if (!open) return;
+        loadReleases();
+        if (scroll) {
+          const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          section.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+        }
+      };
+
+      toggles.forEach((button) => {
+        button.addEventListener("click", () => setOpen(section.hidden, true));
+      });
+      openers.forEach((link) => {
+        link.addEventListener("click", () => setOpen(true));
+      });
+      if (window.location.hash === "#releases") setOpen(true);
+
+      // Копирование шаблонов sernet://: кнопка не нужна, пока нет JS.
+      document.querySelectorAll(".command").forEach((row) => {
+        const code = row.querySelector("code");
+        if (!code) return;
+        const command = code.textContent.trim();
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "copy";
+        button.textContent = "Копировать";
+        button.setAttribute("aria-label", `Скопировать команду ${command}`);
+        button.addEventListener("click", async () => {
+          let copied = false;
+          try {
+            await navigator.clipboard.writeText(command);
+            copied = true;
+          } catch {
+            const field = document.createElement("textarea");
+            field.value = command;
+            field.setAttribute("readonly", "");
+            field.style.position = "fixed";
+            field.style.opacity = "0";
+            document.body.append(field);
+            field.select();
+            copied = document.execCommand("copy");
+            field.remove();
+          }
+          button.textContent = copied ? "Скопировано" : "Не вышло";
+          button.dataset.done = String(copied);
+          window.setTimeout(() => {
+            button.textContent = "Копировать";
+            delete button.dataset.done;
+          }, 1600);
+        });
+        row.append(button);
+      });
+    })();
+  </script>
+</body>
+</html>
