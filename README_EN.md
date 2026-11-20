@@ -18,6 +18,7 @@
 
 <p>
   <a href="https://github.com/bgkv44/Ser-Net/releases">Download</a> ·
+  <a href="https://github.com/bgkv44/Ser-Net-android">Android</a> ·
   <a href="https://bgkv44.github.io/Ser-Net/">User guide</a> ·
   <a href="https://t.me/secureNet_Support_new">Support</a> ·
   <a href="README.md">Русский</a>
@@ -25,7 +26,7 @@
 
 </div>
 
-**Contents:** [About](#about) · [Screenshots](#screenshots) · [Features](#features) · [Protocols](#supported-protocols) · [Modes](#connection-modes) · [Routing](#routing) · [Install](#installation) · [First connection](#first-connection) · [Commands](#sernet-commands) · [Settings](#settings) · [Troubleshooting](#troubleshooting) · [Support](#support)
+**Contents:** [About](#about) · [Android](#android-version) · [Screenshots](#screenshots) · [Features](#features) · [Protocols](#supported-protocols) · [Modes](#connection-modes) · [Routing](#routing) · [Install](#installation) · [First connection](#first-connection) · [Commands](#sernet-commands) · [Settings](#settings) · [Troubleshooting](#troubleshooting) · [Support](#support)
 
 ## About
 
@@ -33,6 +34,15 @@ Ser-Net is a Windows desktop VPN client built on [Xray-core](https://github.com/
 
 > [!NOTE]
 > Ser-Net does not provide VPN servers, subscriptions or infrastructure access. You need your own compatible link or subscription from a provider.
+
+## Android version
+
+Ser-Net is also available for Android: a `VpnService` tunnel, per-app routing, a Quick Settings tile and the same subscriptions as on desktop.
+
+- Repository and docs: [bgkv44/Ser-Net-android](https://github.com/bgkv44/Ser-Net-android)
+- Download APKs: [releases page](https://github.com/bgkv44/Ser-Net-android/releases/latest) — current version `1.0.0-beta.1.5`, builds for `arm64-v8a`, `armeabi-v7a`, `x86` and `x86_64`.
+
+The Android build ships separately from Windows and keeps its own version line: its own app, service and versionCode.
 
 ## Screenshots
 
