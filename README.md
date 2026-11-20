@@ -40,7 +40,7 @@ Ser-Net — настольный VPN-клиент для Windows, который
 Ser-Net выходит и для Android: туннель через системный `VpnService`, выбор приложений, плитка в шторке быстрых настроек и те же подписки, что и на компьютере.
 
 - Репозиторий и описание: [bgkv44/Ser-Net-android](https://github.com/bgkv44/Ser-Net-android)
-- Скачать APK: [страница релизов](https://github.com/bgkv44/Ser-Net-android/releases/latest) — текущая версия `1.0.0-beta.1.5`, сборки под `arm64-v8a`, `armeabi-v7a`, `x86` и `x86_64`.
+- Скачать APK: [страница релизов](https://github.com/bgkv44/Ser-Net-android/releases) — текущая версия `1.0.0-beta.1.5`, сборки под `arm64-v8a`, `armeabi-v7a`, `x86` и `x86_64`.
 
 Android-версия собирается отдельно от Windows и идёт по своей линейке версий: у неё своё приложение, своя служба и свой versionCode.
 
