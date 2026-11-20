@@ -40,7 +40,7 @@ Ser-Net is a Windows desktop VPN client built on [Xray-core](https://github.com/
 Ser-Net is also available for Android: a `VpnService` tunnel, per-app routing, a Quick Settings tile and the same subscriptions as on desktop.
 
 - Repository and docs: [bgkv44/Ser-Net-android](https://github.com/bgkv44/Ser-Net-android)
-- Download APKs: [releases page](https://github.com/bgkv44/Ser-Net-android/releases/latest) — current version `1.0.0-beta.1.5`, builds for `arm64-v8a`, `armeabi-v7a`, `x86` and `x86_64`.
+- Download APKs: [releases page](https://github.com/bgkv44/Ser-Net-android/releases) — current version `1.0.0-beta.1.5`, builds for `arm64-v8a`, `armeabi-v7a`, `x86` and `x86_64`.
 
 The Android build ships separately from Windows and keeps its own version line: its own app, service and versionCode.
 
